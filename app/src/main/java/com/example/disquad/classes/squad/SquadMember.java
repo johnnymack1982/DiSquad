@@ -2,7 +2,7 @@ package com.example.disquad.classes.squad;
 
 import android.location.Location;
 
-import com.example.disquad.classes.attractions.Attraction;
+import com.example.disquad.classes.mission.attraction.Attraction;
 
 import java.util.ArrayList;
 import java.util.Calendar;

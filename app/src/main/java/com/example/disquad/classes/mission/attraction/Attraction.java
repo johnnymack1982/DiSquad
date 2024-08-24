@@ -1,4 +1,4 @@
-package com.example.disquad.classes.attractions;
+package com.example.disquad.classes.mission.attraction;
 
 import android.location.Location;
 
