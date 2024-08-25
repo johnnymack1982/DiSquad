@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">DiSquad</string>
+    <string name="welcome_to_disquad">Welcome to DiSquad</string>
+    <string name="welcome_message">We’re excited to help you plan your upcoming Disney vacation. At DiSquad, we are Disney enthusiasts and, whether you’re visiting the parks in Florida or setting sail on one of Disney’s amazing cruise ships, it’s our dream to help your family and (and ours) plan the perfect Disney trip, including packing lists, itineraries, budgeting, and so much more!</string>
+    <string name="button_get_started">Let\'s get started!</string>
+    <string name="disquad_logo">DiSquad Logo</string>
 </resources>

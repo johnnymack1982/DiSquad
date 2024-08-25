@@ -3,6 +3,7 @@ package com.example.disquad.classes.mission.destination;
 import android.location.Location;
 
 import com.example.disquad.classes.mission.attraction.Excursion;
+import com.example.disquad.classes.squad.Squad;
 import com.example.disquad.classes.squad.SquadMember;
 
 import java.util.ArrayList;
@@ -17,9 +18,9 @@ public class Island extends Destination{
 
 
     // CONSTRUCTORS
-    public Island(int destinationTypeID, String destinationName, Location location, String islandCountry, Date deboardingTime,
+    public Island(int destinationTypeID, String destinationName, Location location, Squad squad, String islandCountry, Date deboardingTime,
                   Date boardingTime, ArrayList<Excursion> excursions) {
-        super(destinationTypeID, destinationName, location);
+        super(destinationTypeID, destinationName, location, squad);
 
         this.islandCountry = islandCountry;
         this.deboardingTime = deboardingTime;
