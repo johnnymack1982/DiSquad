@@ -18,7 +18,7 @@ public class Attraction {
     public Attraction(String attractionName, Location attractionLocation, ArrayList<SquadMember> participants) {
         this.attractionName = attractionName;
         this.attractionLocation = attractionLocation;
-        this.participants = participants
+        this.participants = participants;
     }
 
 

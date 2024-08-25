@@ -13,7 +13,6 @@ public class Island extends Destination{
     private String islandCountry;
     private Date deboardingTime;
     private Date boardingTime;
-    private ArrayList<Excursion> excursions;
 
 
 
@@ -25,7 +24,6 @@ public class Island extends Destination{
         this.islandCountry = islandCountry;
         this.deboardingTime = deboardingTime;
         this.boardingTime = boardingTime;
-        this.excursions = excursions;
     }
 
 
@@ -53,13 +51,5 @@ public class Island extends Destination{
 
     public void setBoardingTime(Date boardingTime) {
         this.boardingTime = boardingTime;
-    }
-
-    public ArrayList<Excursion> getExcursions() {
-        return this.excursions;
-    }
-
-    public void setExcursions(ArrayList<Excursion> excursions) {
-        this.excursions = excursions;
     }
 }
