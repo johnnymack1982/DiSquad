@@ -1,5 +1,7 @@
 package com.example.disquad.classes.mission.destination;
 
+import android.location.Location;
+
 import com.example.disquad.classes.mission.attraction.Attraction;
 
 import java.util.ArrayList;
@@ -9,13 +11,15 @@ public class Destination {
     private int destinationTypeID;
     private String destinationName;
     private ArrayList<Attraction> attractions;
+    private Location location;
 
 
 
     // CONSTRUCTORS
-    public Destination(int destinationTypeID, String destinationName) {
+    public Destination(int destinationTypeID, String destinationName, Location location) {
         this.destinationTypeID = destinationTypeID;
         this.destinationName = destinationName;
+        this.location = location;
     }
 
 
@@ -43,5 +47,13 @@ public class Destination {
 
     public void setAttractions(ArrayList<Attraction> attractions) {
         this.attractions = attractions;
+    }
+
+    public Location getLocation() {
+        return this.location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }
