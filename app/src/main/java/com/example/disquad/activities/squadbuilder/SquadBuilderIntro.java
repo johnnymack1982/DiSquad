@@ -1,5 +1,6 @@
 package com.example.disquad.activities.squadbuilder;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -28,6 +29,9 @@ public class SquadBuilderIntro extends AppCompatActivity {
     // TextViews
     private TextView squadCountDisplay;
 
+    // Intents
+    Intent squadBuilder1Intent;
+
 
 
     // SYSTEM GENERATED METHODS
@@ -50,6 +54,9 @@ public class SquadBuilderIntro extends AppCompatActivity {
     // CUSTOM METHODS
     // Custom method to initialize the UI
     private void initializeUI() {
+        // Initialize intent for next activity
+        squadBuilder1Intent = new Intent(this, SquadBuilder1.class);
+
         // Set squad count to 1
         squadCount = 1;
 
@@ -58,7 +65,11 @@ public class SquadBuilderIntro extends AppCompatActivity {
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: MOVE TO NEXT ACTIVITY. SEND SQUAD COUNT TO NEXT ACTIVITY
+                // Add target squad count to intent for next activity
+                squadBuilder1Intent.putExtra("targetSquadCount", squadCount);
+
+                // Launch the next activity
+                startActivity(squadBuilder1Intent);
             }
         });
 

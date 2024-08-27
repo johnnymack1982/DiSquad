@@ -9,4 +9,5 @@
     <color name="accent">#FFA91F</color>
     <color name="primary_dark">#14213D</color>
     <color name="title_text">#14213D</color>
+    <color name="error">#DD6755</color>
 </resources>
