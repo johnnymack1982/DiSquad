@@ -8,5 +8,28 @@
         <item name="android:backgroundTint">@color/background</item>
     </style>
 
+    <style name="DatePicker" parent="ThemeOverlay.AppCompat.Dialog">
+        <!--header background-->
+        <item name="colorAccent">@color/accent</item>
+
+        <!--header textcolor-->
+        <item name="android:textColorPrimaryInverse">@color/primary</item>
+
+        <!--body background-->
+        <item name="android:windowBackground">@color/background</item>
+
+        <!--selected day-->
+        <item name="android:colorControlActivated">@color/accent</item>
+
+        <!--days of the month-->
+        <item name="android:textColorPrimary">@color/primary_text</item>
+
+        <!--days of the week-->
+        <item name="android:textColorSecondary">@color/primary</item>
+
+        <!--cancel&ok-->
+        <item name="android:textColor">@color/white</item>
+    </style>
+
     <style name="Theme.DiSquad" parent="Base.Theme.DiSquad" />
 </resources>
