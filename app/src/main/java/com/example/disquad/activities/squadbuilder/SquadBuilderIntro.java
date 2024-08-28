@@ -1,7 +1,6 @@
 package com.example.disquad.activities.squadbuilder;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -67,6 +66,7 @@ public class SquadBuilderIntro extends AppCompatActivity {
             public void onClick(View view) {
                 // Add target squad count to intent for next activity
                 squadBuilder1Intent.putExtra("targetSquadCount", squadCount);
+                squadBuilder1Intent.putExtra("currentSquadCount", 0);
 
                 // Launch the next activity
                 startActivity(squadBuilder1Intent);

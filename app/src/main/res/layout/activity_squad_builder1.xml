@@ -126,7 +126,7 @@
             android:id="@+id/edit_text_last_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="First Name"
+            android:hint="Last Name"
             android:textColor="@color/primary_text" />
     </com.google.android.material.textfield.TextInputLayout>
 

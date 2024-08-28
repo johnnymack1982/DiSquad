@@ -187,7 +187,7 @@ public class SquadMember {
         int dayOfBirth = calendar.get(Calendar.DAY_OF_MONTH);
 
         // Calculate age
-        int age = currentYear = yearOfBirth;
+        int age = currentYear - yearOfBirth;
 
         if(monthOfBirth > currentMonth && dayOfBirth > currentDay) {
             age--;

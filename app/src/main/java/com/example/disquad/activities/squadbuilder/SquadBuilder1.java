@@ -1,5 +1,6 @@
 package com.example.disquad.activities.squadbuilder;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -39,6 +40,9 @@ public class SquadBuilder1 extends AppCompatActivity {
     private TextInputLayout emailInput;
     private TextInputLayout mobilePhoneInput;
 
+    // Intents
+    Intent squadBuilder2Intent;
+
 
 
     // SYSTEM GENERATED METHODS
@@ -53,6 +57,9 @@ public class SquadBuilder1 extends AppCompatActivity {
             return insets;
         });
 
+        // Collect data from previous activity
+        retrieveData();
+
         // Call custom method to initialize UI
         initializeUI();
     }
@@ -62,6 +69,9 @@ public class SquadBuilder1 extends AppCompatActivity {
     // CUSTOM METHODS
     // Custom method to initialize the UI
     private void initializeUI() {
+        // Initialize intent for next activity
+        squadBuilder2Intent = new Intent(this, SquadBuilder2.class);
+
         // Initialize back button
         backButton = findViewById(R.id.button_back);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +87,11 @@ public class SquadBuilder1 extends AppCompatActivity {
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: LAUNCH NEXT ACTIVITY. SEND COLLECTED DATA FORWARD
+                // Call custom method to collect user input into data points
+                collectInputData();
+
+                // Launch next activity and send collected data forward
+                startActivity(squadBuilder2Intent);
             }
         });
 
@@ -177,5 +191,31 @@ public class SquadBuilder1 extends AppCompatActivity {
             // Change button color to gray
             continueButton.setBackgroundColor(getColor(R.color.secondary_text));
         }
+    }
+
+    // Custom method to retrieve data from previous activity
+    private void retrieveData() {
+        Bundle extras = getIntent().getExtras();
+
+        targetSquadCount = extras.getInt("targetSquadCount");
+        currentSquadCount = extras.getInt("currentSquadCount");
+    }
+
+    // Custom method to collect data from user input fields
+    private void collectInputData() {
+        // Collect user input into data points
+        firstName = firstNameInput.getEditText().getText().toString().trim();
+        lastName = lastNameInput.getEditText().getText().toString().trim();
+        emailAddress = emailInput.getEditText().getText().toString().trim();
+        mobileNumber = mobilePhoneInput.getEditText().getText().toString().trim();
+
+        // Send all data collected so far to the next activity
+        squadBuilder2Intent.putExtra("targetSquadCount", targetSquadCount);
+        squadBuilder2Intent.putExtra("currentSquadCount", currentSquadCount);
+
+        squadBuilder2Intent.putExtra("firstName", firstName);
+        squadBuilder2Intent.putExtra("lastName", lastName);
+        squadBuilder2Intent.putExtra("emailAddress", emailAddress);
+        squadBuilder2Intent.putExtra("mobileNumber", mobileNumber);
     }
 }
