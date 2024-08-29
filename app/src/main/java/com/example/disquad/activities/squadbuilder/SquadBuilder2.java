@@ -1,6 +1,7 @@
 package com.example.disquad.activities.squadbuilder;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -63,6 +64,9 @@ public class SquadBuilder2 extends AppCompatActivity {
     private Switch hasDASInput;
     private Switch isSquadLeaderInput;
 
+    // Intents
+    Intent squadBuilderFinishIntent;
+
 
     // SYSTEM GENERATED METHODS
     @Override
@@ -101,6 +105,9 @@ public class SquadBuilder2 extends AppCompatActivity {
 
     // Custom method to initialize the UI
     private void initializeUI() {
+        // Initialize intent for next activity
+        squadBuilderFinishIntent = new Intent(this, SquadBuilderFinish.class);
+
         // Initialize back button
         backButton = findViewById(R.id.button_back);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -115,9 +122,11 @@ public class SquadBuilder2 extends AppCompatActivity {
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: COLLECT INPUT INTO DATA POINTS
+                // Call custom method to collect input into data points
+                collectInputDate();
 
-                // TODO: LAUNCH NEXT ACTIVITY AND SEND ALL COLLECTED DATA FORWARD
+                // Launch SquadBuilderFinish activity
+                startActivity(squadBuilderFinishIntent);
             }
         });
 
@@ -277,5 +286,28 @@ public class SquadBuilder2 extends AppCompatActivity {
 
         // Show date picker to the user
         datePickerDialog.show();
+    }
+
+    // Custom method to collect user input into data points
+    private void collectInputDate() {
+        // Collect user input into data points
+        height = Integer.parseInt(heightInput.getEditText().getText().toString().trim());
+        isAnnualPassholder = annualPassholderInput.isChecked();
+        hasDAS = hasDASInput.isChecked();
+        isSquadLeader = isSquadLeaderInput.isChecked();
+
+        // Send all data collected so far to the next activity
+        squadBuilderFinishIntent.putExtra("targetSquadCount", targetSquadCount);
+        squadBuilderFinishIntent.putExtra("currentSquadCount", currentSquadCount);
+
+        squadBuilderFinishIntent.putExtra("firstName", firstName);
+        squadBuilderFinishIntent.putExtra("lastName", lastName);
+        squadBuilderFinishIntent.putExtra("emailAddress", emailAddress);
+        squadBuilderFinishIntent.putExtra("mobileNumber", mobileNumber);
+
+        squadBuilderFinishIntent.putExtra("dateOfBirth", dateOfBirth);
+        squadBuilderFinishIntent.putExtra("isAnnualPassholder", isAnnualPassholder);
+        squadBuilderFinishIntent.putExtra("hasDAS", hasDAS);
+        squadBuilderFinishIntent.putExtra("isSquadLeader", isSquadLeader);
     }
 }

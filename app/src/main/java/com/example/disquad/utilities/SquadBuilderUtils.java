@@ -148,7 +148,7 @@ public class SquadBuilderUtils {
     // Custom method to toggle continue button on and off
     public static void toggleContinueButton(Context context, Button continueButton) {
         // If input is valid and the button is currently disable...
-        if(inputValid && !continueButton.isEnabled()) {
+        if(inputValid) {
             // Enable the button
             continueButton.setEnabled(true);
 
