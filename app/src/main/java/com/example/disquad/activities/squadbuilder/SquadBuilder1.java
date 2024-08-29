@@ -83,7 +83,7 @@ public class SquadBuilder1 extends AppCompatActivity {
         });
 
         // Initialize continue button
-        continueButton = findViewById(R.id.button_continue);
+        continueButton = findViewById(R.id.button_finish);
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

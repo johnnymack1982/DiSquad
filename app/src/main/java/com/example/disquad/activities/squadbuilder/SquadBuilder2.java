@@ -7,7 +7,6 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -118,7 +117,7 @@ public class SquadBuilder2 extends AppCompatActivity {
         });
 
         // Initialize continue button
-        continueButton = findViewById(R.id.button_continue);
+        continueButton = findViewById(R.id.button_finish);
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -150,7 +149,14 @@ public class SquadBuilder2 extends AppCompatActivity {
         dateOfBirthInput.getEditText().setFocusable(true);
 
         // Display first name in input hint
-        message = "'s Date of Birth";
+        if(firstName.substring(firstName.length() - 1).toLowerCase().equals("s")) {
+            message = "' Date of Birth";
+        }
+
+        else {
+            message = "'s Date of Birth";
+        }
+
         dateOfBirthInput.setHint(firstName + message);
 
         // Show date picker when field comes into focus
@@ -186,7 +192,14 @@ public class SquadBuilder2 extends AppCompatActivity {
         heightInput = findViewById(R.id.text_input_height);
 
         // Display first name in input hint
-        message = "'s height in inches.";
+        if(firstName.substring(firstName.length() - 1).toLowerCase().equals("s")) {
+            message = "' Height in Inches";
+        }
+
+        else {
+            message = "'s Height in Inches";
+        }
+
         heightInput.setHint(firstName + message);
 
         // Set on change listener to watch for changes to input in the height field
@@ -306,6 +319,7 @@ public class SquadBuilder2 extends AppCompatActivity {
         squadBuilderFinishIntent.putExtra("mobileNumber", mobileNumber);
 
         squadBuilderFinishIntent.putExtra("dateOfBirth", dateOfBirth);
+        squadBuilderFinishIntent.putExtra("height", height);
         squadBuilderFinishIntent.putExtra("isAnnualPassholder", isAnnualPassholder);
         squadBuilderFinishIntent.putExtra("hasDAS", hasDAS);
         squadBuilderFinishIntent.putExtra("isSquadLeader", isSquadLeader);

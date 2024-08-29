@@ -126,7 +126,13 @@ public class SquadBuilderUtils {
         }
 
         if(heightText.isEmpty() && heightInput == callingInput) {
-            heightInput.setError("Please enter " + firstName + "'s height in inches");
+            if(firstName.substring(firstName.length() - 1).toLowerCase().equals("s")) {
+                heightInput.setError("Please enter " + firstName + "' height in inches");
+            }
+
+            else {
+                heightInput.setError("Please enter " + firstName + "'s height in inches");
+            }
         }
 
         else if(heightInput == callingInput) {

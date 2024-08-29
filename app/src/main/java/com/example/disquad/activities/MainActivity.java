@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         Intent squadBuilderIntroActivityIntent = new Intent(this, SquadBuilderIntro.class);
 
         // Initialize 'Get Started' button
-        getStartedButton = findViewById(R.id.button_continue);
+        getStartedButton = findViewById(R.id.button_finish);
         getStartedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

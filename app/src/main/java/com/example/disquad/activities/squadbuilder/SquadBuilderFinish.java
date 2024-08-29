@@ -1,6 +1,9 @@
 package com.example.disquad.activities.squadbuilder;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,9 +12,41 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.disquad.R;
+import com.example.disquad.classes.squad.Squad;
+import com.example.disquad.classes.squad.SquadMember;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 public class SquadBuilderFinish extends AppCompatActivity {
+    // CLASS PROPERTIES
+    private int targetSquadCount;
+    private int currentSquadCount;
 
+    private String firstName;
+    private String lastName;
+    private String emailAddress;
+    private String mobileNumber;
+
+    private Date dateOfBirth;
+    private int height;
+    private boolean isAnnualPassholder;
+    private boolean hasDAS;
+    private boolean isSquadLeader;
+
+    Squad squad;
+
+    // Text Views
+    TextView instructions;
+
+    // Buttons
+    Button backButton;
+    Button finishButton;
+    Button addButton;
+
+
+
+    // SYSTEM GENERATED METHODS
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,5 +57,113 @@ public class SquadBuilderFinish extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // Call custom method to retrieve data from previous activity
+        retrieveData();
+
+        // Call custom method to create new squad member
+        createSquadMember();
+
+        // Call custom method to initialize UI
+        initializeUI();
+    }
+
+
+
+    // CUSTOM METHODS
+    // Custom method to retrieve user input from previous activity
+    private void retrieveData() {
+        Bundle extras = getIntent().getExtras();
+
+        targetSquadCount = extras.getInt("targetSquadCount");
+        currentSquadCount = extras.getInt("currentSquadCount");
+
+        firstName = extras.getString("firstName");
+        lastName = extras.getString("lastName");
+        emailAddress = extras.getString("emailAddress");
+        mobileNumber = extras.getString("mobileNumber");
+
+        dateOfBirth = (Date)extras.getSerializable("dateOfBirth");
+        height = extras.getInt("height");
+        isAnnualPassholder = extras.getBoolean("isAnnualPassholder");
+        hasDAS = extras.getBoolean("hasDAS");
+        isSquadLeader = extras.getBoolean("isSquadLeader");
+    }
+
+    // Custom method to create new squad member
+    private void createSquadMember() {
+        // Create new squad member from user input
+        SquadMember newSquadMember = new SquadMember(firstName, lastName, emailAddress, mobileNumber, dateOfBirth, height, isSquadLeader, isAnnualPassholder, hasDAS);
+
+        // If the squad hasn't been created yet, create one
+        if(squad == null) {
+            squad = new Squad(null, new ArrayList<SquadMember>());
+        }
+
+        squad.addSquadMember(newSquadMember);
+
+        for(SquadMember squadMember : squad.getSquadMembers()) {
+            if(squadMember.isSquadLeader()) {
+                squad.setSquadLeader(squadMember);
+            }
+        }
+
+        currentSquadCount++;
+    }
+
+    // Custom method to initialize UI
+    private void initializeUI() {
+        // Initialize back button
+        backButton = findViewById(R.id.button_back);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        // Initialize finish button
+        finishButton = findViewById(R.id.button_finish);
+        finishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: LAUNCH MISSION BUILDER AND PASS SQUAD FORWARD
+            }
+        });
+
+        addButton = findViewById(R.id.button_add);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: RETURN TO SB1 AND PASS SQUAD FORWARD
+            }
+        });
+
+        // Initialize instructions text view
+        instructions = findViewById(R.id.text_instructions);
+
+        // Populate text
+        String message = "Great! We've added " + firstName + " to the " + lastName + " squad";
+        if(isSquadLeader) {
+            message = message + " as the Squad Leader.";
+        }
+
+        else {
+            message = message + ".";
+        }
+
+        message = message + "You have " + currentSquadCount;
+
+        if(currentSquadCount == 1) {
+            message = message + " person";
+        }
+
+        else {
+            message = message + " people";
+        }
+        message = message + " in your squad. \n\n Do you want to add another squad member now? " +
+                "You can always come back and do this later if you need to.";
+
+        instructions.setText(message);
     }
 }

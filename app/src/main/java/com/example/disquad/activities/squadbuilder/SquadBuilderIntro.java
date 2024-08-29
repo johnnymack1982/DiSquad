@@ -60,7 +60,7 @@ public class SquadBuilderIntro extends AppCompatActivity {
         squadCount = 1;
 
         // Initialize continue button
-        continueButton = findViewById(R.id.button_continue);
+        continueButton = findViewById(R.id.button_finish);
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,7 +111,7 @@ public class SquadBuilderIntro extends AppCompatActivity {
         });
 
         // Initialize increase button
-        increaseButton = findViewById(R.id.button_increase);
+        increaseButton = findViewById(R.id.button_add);
         increaseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

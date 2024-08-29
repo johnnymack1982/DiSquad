@@ -15,7 +15,7 @@ public class SquadMember {
     private String lastName;
     private String emailAddress;
     private String password;
-    private int phoneNumber;
+    private String mobileNumber;
     private Date dateOfBirth;
     private int age;
     private int height;
@@ -23,24 +23,25 @@ public class SquadMember {
     private Location location;
     private boolean isSquadLeader;
     private boolean passHolder;
+    private boolean hasDAS;
     private boolean llMultiPass;
     private ArrayList<Attraction> individualLLPasses;
 
 
 
     // CONSTRUCTORS
-    public SquadMember(String firstName, String lastName, String emailAddress, int phoneNumber, Date dateOfBirth, int height, boolean isSquadLeader,
-                       boolean passHolder, boolean llMultiPass) {
+    public SquadMember(String firstName, String lastName, String emailAddress, String mobileNumber, Date dateOfBirth, int height, boolean isSquadLeader,
+                       boolean passHolder, boolean hasDAS) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
-        this.phoneNumber = phoneNumber;
+        this.mobileNumber = mobileNumber;
         this.dateOfBirth = dateOfBirth;
         this.age = calculateAge();
         this.height = height;
         this.isSquadLeader = isSquadLeader;
         this.passHolder = passHolder;
-        this.llMultiPass = llMultiPass;
+        this.hasDAS = hasDAS;
     }
 
 
@@ -78,12 +79,12 @@ public class SquadMember {
         this.password = password;
     }
 
-    public int getPhoneNumber() {
-        return this.phoneNumber;
+    public String getMobileNumber() {
+        return this.mobileNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
     }
 
     public Date getDateOfBirth() {
@@ -158,6 +159,13 @@ public class SquadMember {
         this.individualLLPasses = individualLLPasses;
     }
 
+    public boolean isHasDAS() {
+        return hasDAS;
+    }
+
+    public void setHasDAS(boolean hasDAS) {
+        this.hasDAS = hasDAS;
+    }
 
 
 
