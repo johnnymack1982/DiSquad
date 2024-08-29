@@ -1,7 +1,10 @@
 package com.example.disquad.utilities;
 
+import android.content.Context;
 import android.util.Patterns;
+import android.widget.Button;
 
+import com.example.disquad.R;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class SquadBuilderUtils {
@@ -11,6 +14,9 @@ public class SquadBuilderUtils {
     private static boolean lastNameValid = false;
     private static boolean emailValid = false;
     private static boolean mobileNumberValid = false;
+
+    private static boolean dateOfBirthValid = false;
+    private static boolean heightValid = false;
 
 
 
@@ -34,7 +40,7 @@ public class SquadBuilderUtils {
         String mobilePhoneText = mobilePhoneInput.getEditText().getText().toString().trim();
 
         // If first name field is empty..
-        if((firstNameText.isEmpty()) && firstNameInput == callingInput) {
+        if(firstNameText.isEmpty() && firstNameInput == callingInput) {
             // Provide user with error message and indicate that input is invalid
             firstNameInput.setError("Please enter your first name");
             firstNameValid = false;
@@ -102,5 +108,61 @@ public class SquadBuilderUtils {
         }
 
         return inputValid;
+    }
+
+    // Custom method to validate input from the SquadBuilder2 activity
+    public static boolean validateSB2(TextInputLayout dateOfBirthInput, TextInputLayout heightInput, TextInputLayout callingInput, String firstName) {
+        // Get input from all text input fields
+        String dateOfBirthText = dateOfBirthInput.getEditText().getText().toString().trim();
+        String heightText = heightInput.getEditText().getText().toString().trim();
+
+        if(dateOfBirthText.isEmpty() && dateOfBirthInput == callingInput) {
+            dateOfBirthInput.setError("Please enter a valid date");
+        }
+
+        else if(dateOfBirthInput == callingInput) {
+            dateOfBirthValid = true;
+            dateOfBirthInput.setErrorEnabled(false);
+        }
+
+        if(heightText.isEmpty() && heightInput == callingInput) {
+            heightInput.setError("Please enter " + firstName + "'s height in inches");
+        }
+
+        else if(heightInput == callingInput) {
+            heightValid = true;
+            heightInput.setErrorEnabled(false);
+        }
+
+        if(dateOfBirthValid && heightValid) {
+            inputValid = true;
+        }
+
+        else {
+            inputValid = false;
+        }
+
+        return inputValid;
+    }
+
+    // Custom method to toggle continue button on and off
+    public static void toggleContinueButton(Context context, Button continueButton) {
+        // If input is valid and the button is currently disable...
+        if(inputValid && !continueButton.isEnabled()) {
+            // Enable the button
+            continueButton.setEnabled(true);
+
+            // Change button color to orange
+            continueButton.setBackgroundColor(context.getColor(R.color.accent));
+        }
+
+        // If input is invalid and button is currently enabled...
+        else {
+            // Disable button
+            continueButton.setEnabled(false);
+
+            // Change button color to gray
+            continueButton.setBackgroundColor(context.getColor(R.color.secondary_text));
+        }
     }
 }

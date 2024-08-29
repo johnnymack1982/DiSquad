@@ -2,6 +2,9 @@ package com.example.disquad.activities.squadbuilder;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -17,6 +20,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.disquad.R;
+import com.example.disquad.utilities.SquadBuilderUtils;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.SimpleDateFormat;
@@ -39,6 +43,8 @@ public class SquadBuilder2 extends AppCompatActivity {
     private boolean isAnnualPassholder;
     private boolean hasDAS;
     private boolean isSquadLeader;
+
+    private static boolean inputValid;
 
     // Text Views
     TextView instructions1;
@@ -127,12 +133,18 @@ public class SquadBuilder2 extends AppCompatActivity {
 
         // Initialize date of birth input
         dateOfBirthInput = findViewById(R.id.text_input_date_of_birth);
+
+        // Make sure user can only enter date using the date picker
+        dateOfBirthInput.getEditText().setInputType(InputType.TYPE_NULL);
+
+        // Make sure the field is focusable
         dateOfBirthInput.getEditText().setFocusable(true);
 
         // Display first name in input hint
         message = "'s Date of Birth";
         dateOfBirthInput.setHint(firstName + message);
 
+        // Show date picker when field comes into focus
         dateOfBirthInput.getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
@@ -143,12 +155,48 @@ public class SquadBuilder2 extends AppCompatActivity {
             }
         });
 
+        // Set change listener to validate input on date picker
+        dateOfBirthInput.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // On input change to date of birth field, validate the input
+                inputValid = SquadBuilderUtils.validateSB2(dateOfBirthInput, heightInput, dateOfBirthInput, firstName);
+
+                // Toggle continue button
+                SquadBuilderUtils.toggleContinueButton(getApplicationContext(), continueButton);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+
         // Initialise height input
         heightInput = findViewById(R.id.text_input_height);
 
         // Display first name in input hint
         message = "'s height in inches.";
         heightInput.setHint(firstName + message);
+
+        // Set on change listener to watch for changes to input in the height field
+        heightInput.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // On change to text in the field, check for valid input
+                inputValid = SquadBuilderUtils.validateSB2(dateOfBirthInput, heightInput, heightInput, firstName);
+
+                // Toogle continue button
+                SquadBuilderUtils.toggleContinueButton(getApplicationContext(), continueButton);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
 
         // Initialize passholder input
         annualPassholderInput = findViewById(R.id.switch_annual_passholder);

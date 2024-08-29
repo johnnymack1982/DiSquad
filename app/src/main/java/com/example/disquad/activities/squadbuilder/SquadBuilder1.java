@@ -107,7 +107,7 @@ public class SquadBuilder1 extends AppCompatActivity {
                 inputValid = SquadBuilderUtils.validateSB1(firstNameInput, lastNameInput, emailInput, mobilePhoneInput, firstNameInput);
 
                 // Call custom method to toggle continue button
-                toggleContinueButton();
+                SquadBuilderUtils.toggleContinueButton(getApplicationContext(), continueButton);
             }
 
             @Override
@@ -126,7 +126,7 @@ public class SquadBuilder1 extends AppCompatActivity {
                 inputValid = SquadBuilderUtils.validateSB1(firstNameInput, lastNameInput, emailInput, mobilePhoneInput, lastNameInput);
 
                 // Call custom method to toggle continue button
-                toggleContinueButton();
+                SquadBuilderUtils.toggleContinueButton(getApplicationContext(), continueButton);
             }
 
             @Override
@@ -145,7 +145,7 @@ public class SquadBuilder1 extends AppCompatActivity {
                 inputValid = SquadBuilderUtils.validateSB1(firstNameInput, lastNameInput, emailInput, mobilePhoneInput, emailInput);
 
                 // Call custom method to toggle continue button
-                toggleContinueButton();
+                SquadBuilderUtils.toggleContinueButton(getApplicationContext(), continueButton);
             }
 
             @Override
@@ -164,33 +164,12 @@ public class SquadBuilder1 extends AppCompatActivity {
                 inputValid = SquadBuilderUtils.validateSB1(firstNameInput, lastNameInput, emailInput, mobilePhoneInput, mobilePhoneInput);
 
                 // Call custom method to toggle continue button
-                toggleContinueButton();
+                SquadBuilderUtils.toggleContinueButton(getApplicationContext(), continueButton);
             }
 
             @Override
             public void afterTextChanged(Editable editable) {}
         });
-    }
-
-    // Custom method to toggle continue button on and off
-    private void toggleContinueButton() {
-        // If input is valid and the button is currently disable...
-        if(inputValid && !continueButton.isEnabled()) {
-            // Enable the button
-            continueButton.setEnabled(true);
-
-            // Change button color to orange
-            continueButton.setBackgroundColor(getColor(R.color.accent));
-        }
-
-        // If input is invalid and button is currently enabled...
-        else {
-            // Disable button
-            continueButton.setEnabled(false);
-
-            // Change button color to gray
-            continueButton.setBackgroundColor(getColor(R.color.secondary_text));
-        }
     }
 
     // Custom method to retrieve data from previous activity
