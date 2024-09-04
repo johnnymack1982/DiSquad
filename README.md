@@ -12,7 +12,7 @@ Welcome to **DiSquad**, a comprehensive mobile application designed for Android 
 
 ## Features
 
-### 1. Squad Management (IN DEVELOPMENT)
+### 1. Squad Builder (COMPLETE)
 - **Build Your Squad**: Easily create your Squad by adding members and collecting essential details such as:
   - Name
   - Email
