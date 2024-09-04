@@ -15,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.disquad.R;
 import com.example.disquad.classes.squad.Squad;
 import com.example.disquad.classes.squad.SquadMember;
+import com.example.disquad.utilities.FileUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -149,6 +150,7 @@ public class SquadBuilderFinish extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // TODO: LAUNCH MISSION BUILDER AND PASS SQUAD FORWARD
+                FileUtils.writeSquadLocal(getApplicationContext(), squad);
             }
         });
 
