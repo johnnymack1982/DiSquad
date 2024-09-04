@@ -20,6 +20,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.disquad.R;
+import com.example.disquad.classes.squad.Squad;
+import com.example.disquad.classes.squad.SquadMember;
 import com.example.disquad.utilities.SquadBuilderUtils;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -43,6 +45,8 @@ public class SquadBuilder2 extends AppCompatActivity {
     private boolean isAnnualPassholder;
     private boolean hasDAS;
     private boolean isSquadLeader;
+
+    private Squad squad;
 
     private static boolean inputValid;
 
@@ -93,13 +97,18 @@ public class SquadBuilder2 extends AppCompatActivity {
     private void retrieveData() {
         Bundle extras = getIntent().getExtras();
 
+        // Get current and target squad counts
         targetSquadCount = extras.getInt("targetSquadCount");
         currentSquadCount = extras.getInt("currentSquadCount");
 
+        // Get user input from previous activity
         firstName = extras.getString("firstName");
         lastName = extras.getString("lastName");
         emailAddress = extras.getString("emailAddress");
         mobileNumber = extras.getString("mobileNumber");
+
+        // Get current squad
+        squad = (Squad) extras.getSerializable("squad");
     }
 
     // Custom method to initialize the UI
@@ -254,19 +263,35 @@ public class SquadBuilder2 extends AppCompatActivity {
 
         // Initialize squad leader input
         isSquadLeaderInput = findViewById(R.id.switch_is_squad_leader);
-        isSquadLeaderInput.setText(firstName + " is not the " + lastName + " family squad leader");
-        isSquadLeaderInput.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-                if(checked) {
-                    isSquadLeaderInput.setText(firstName + " is the " + lastName + " family squad leader");
-                }
 
-                else {
-                    isSquadLeaderInput.setText(firstName + " is not the " + lastName + " family squad leader");
+        // If a squad currently exists...
+        if(squad != null) {
+
+            // Cycle through squad members and look for squad leader
+            for (SquadMember squadMember : squad.getSquadMembers()) {
+
+                // If a squad leader is found, indicate who it is and prevent the current squad member from being marked as squad leader
+                if (squadMember.isSquadLeader()) {
+                    isSquadLeaderInput.setEnabled(false);
+                    isSquadLeaderInput.setText(squadMember.getFirstName() + " is the " + squadMember.getLastName() + " family squad leader");
                 }
             }
-        });
+        }
+
+        // If no squad leader exists, allow user to select current squad member as the squad leader
+        if(isSquadLeaderInput.isEnabled()) {
+            isSquadLeaderInput.setText(firstName + " is not the " + lastName + " family squad leader");
+            isSquadLeaderInput.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                    if (checked) {
+                        isSquadLeaderInput.setText(firstName + " is the " + lastName + " family squad leader");
+                    } else {
+                        isSquadLeaderInput.setText(firstName + " is not the " + lastName + " family squad leader");
+                    }
+                }
+            });
+        }
     }
 
     // Custom method to show date picker

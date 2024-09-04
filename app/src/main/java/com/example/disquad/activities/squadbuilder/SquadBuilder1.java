@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,21 +16,29 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.disquad.R;
+import com.example.disquad.classes.squad.Squad;
 import com.example.disquad.utilities.SquadBuilderUtils;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.io.Serializable;
 
 public class SquadBuilder1 extends AppCompatActivity {
     // CLASS PROPERTIES
     private String TAG = "SquadBuilder1.java";
     private int targetSquadCount;
-    private int currentSquadCount;
+    private int currentSquadCount = 0;
 
     private String firstName;
     private String lastName;
     private String emailAddress;
     private String mobileNumber;
 
+    private Squad squad;
+
     private static boolean inputValid;
+
+    // Text views
+    TextView instructions;
 
     // Buttons
     private Button backButton;
@@ -72,6 +82,17 @@ public class SquadBuilder1 extends AppCompatActivity {
         // Initialize intent for next activity
         squadBuilder2Intent = new Intent(this, SquadBuilder2.class);
 
+        // Reset input validation
+        SquadBuilderUtils.resetValidation();
+
+        // Initialize instructions
+        instructions = findViewById(R.id.text_instructions);
+
+        // If the user has already entered their primary information, update the instructions accordingly
+        if(currentSquadCount != 0) {
+            instructions.setText("Great! Let's keep building your squad. Who's next?");
+        }
+
         // Initialize back button
         backButton = findViewById(R.id.button_back);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -104,7 +125,7 @@ public class SquadBuilder1 extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 // On input change to First Name field, validate input
-                inputValid = SquadBuilderUtils.validateSB1(firstNameInput, lastNameInput, emailInput, mobilePhoneInput, firstNameInput);
+                inputValid = SquadBuilderUtils.validateSB1(firstNameInput, lastNameInput, emailInput, mobilePhoneInput, firstNameInput, currentSquadCount);
 
                 // Call custom method to toggle continue button
                 SquadBuilderUtils.toggleContinueButton(getApplicationContext(), continueButton);
@@ -123,7 +144,7 @@ public class SquadBuilder1 extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 // On input change to Last Name field, validate input
-                inputValid = SquadBuilderUtils.validateSB1(firstNameInput, lastNameInput, emailInput, mobilePhoneInput, lastNameInput);
+                inputValid = SquadBuilderUtils.validateSB1(firstNameInput, lastNameInput, emailInput, mobilePhoneInput, lastNameInput, currentSquadCount);
 
                 // Call custom method to toggle continue button
                 SquadBuilderUtils.toggleContinueButton(getApplicationContext(), continueButton);
@@ -135,6 +156,13 @@ public class SquadBuilder1 extends AppCompatActivity {
 
         // Initialize email address input field
         emailInput = findViewById(R.id.input_layout_email);
+
+        // If the primary user has already entered their information, email is optional
+        if(currentSquadCount != 0) {
+            emailInput.setHint("Email Address (Optional)");
+        }
+
+        // Watch for changes to email input field
         emailInput.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
@@ -142,7 +170,7 @@ public class SquadBuilder1 extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 // On input change to Email field validate input
-                inputValid = SquadBuilderUtils.validateSB1(firstNameInput, lastNameInput, emailInput, mobilePhoneInput, emailInput);
+                inputValid = SquadBuilderUtils.validateSB1(firstNameInput, lastNameInput, emailInput, mobilePhoneInput, emailInput, currentSquadCount);
 
                 // Call custom method to toggle continue button
                 SquadBuilderUtils.toggleContinueButton(getApplicationContext(), continueButton);
@@ -154,6 +182,13 @@ public class SquadBuilder1 extends AppCompatActivity {
 
         // Initialize mobile number input field
         mobilePhoneInput = findViewById(R.id.input_layout_mobile);
+
+        // If the primary user has already entered their information, mobile number is optional
+        if(currentSquadCount != 0) {
+            mobilePhoneInput.setHint("Mobile Number (Optional)");
+        }
+
+        // Watch for changes to the mobile number input field
         mobilePhoneInput.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
@@ -161,7 +196,7 @@ public class SquadBuilder1 extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 // On input change to Mobile Number field validate input
-                inputValid = SquadBuilderUtils.validateSB1(firstNameInput, lastNameInput, emailInput, mobilePhoneInput, mobilePhoneInput);
+                inputValid = SquadBuilderUtils.validateSB1(firstNameInput, lastNameInput, emailInput, mobilePhoneInput, mobilePhoneInput, currentSquadCount);
 
                 // Call custom method to toggle continue button
                 SquadBuilderUtils.toggleContinueButton(getApplicationContext(), continueButton);
@@ -176,8 +211,18 @@ public class SquadBuilder1 extends AppCompatActivity {
     private void retrieveData() {
         Bundle extras = getIntent().getExtras();
 
+        // Get current and target squad counts
         targetSquadCount = extras.getInt("targetSquadCount");
         currentSquadCount = extras.getInt("currentSquadCount");
+
+        // Get current squad, if one exists
+        try {
+            squad = (Squad) extras.getSerializable("squad");
+        }
+
+        catch (Exception exception) {
+            Log.d(TAG, "retrieveData: Unable to retrieve squad.");
+        }
     }
 
     // Custom method to collect data from user input fields
@@ -196,5 +241,9 @@ public class SquadBuilder1 extends AppCompatActivity {
         squadBuilder2Intent.putExtra("lastName", lastName);
         squadBuilder2Intent.putExtra("emailAddress", emailAddress);
         squadBuilder2Intent.putExtra("mobileNumber", mobileNumber);
+
+        if(squad != null) {
+            squadBuilder2Intent.putExtra("squad", (Serializable) squad);
+        }
     }
 }

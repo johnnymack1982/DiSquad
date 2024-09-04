@@ -31,7 +31,7 @@ public class SquadBuilderUtils {
     // CUSTOM METHODS
     // Custom method to validate input on SquadBuilder1 activity
     public static boolean validateSB1(TextInputLayout firstNameInput, TextInputLayout lastNameInput, TextInputLayout emailInput,
-                                      TextInputLayout mobilePhoneInput, TextInputLayout callingInput) {
+                                      TextInputLayout mobilePhoneInput, TextInputLayout callingInput, int currentSquadCount) {
 
         // Get text inputs from all input fields
         String firstNameText = firstNameInput.getEditText().getText().toString().trim();
@@ -81,6 +81,13 @@ public class SquadBuilderUtils {
             emailValid = true;
         }
 
+        // If there is no text entered and the primary user has already entered their information email is optional
+        if(emailText.isEmpty() && currentSquadCount != 0 && firstNameValid && lastNameValid) {
+            // Remove errors from field and indicate that input is valid
+            emailInput.setErrorEnabled(false);
+            emailValid = true;
+        }
+
         // If mobile number field does not contain a valid phone number...
         if((!Patterns.PHONE.matcher(mobilePhoneText).matches() || mobilePhoneText.length() != 10) && mobilePhoneInput == callingInput) {
             // Provide user with error message and indicate that input is invalid
@@ -90,6 +97,13 @@ public class SquadBuilderUtils {
 
         // If input is valid...
         else if(mobilePhoneInput == callingInput) {
+            // Remove errors from field and indicate that input is valid
+            mobilePhoneInput.setErrorEnabled(false);
+            mobileNumberValid = true;
+        }
+
+        // If there is no text entered and the primary user has already entered their information mobile number is optional
+        if(mobilePhoneText.isEmpty() && currentSquadCount != 0 && firstNameValid && lastNameValid) {
             // Remove errors from field and indicate that input is valid
             mobilePhoneInput.setErrorEnabled(false);
             mobileNumberValid = true;
@@ -116,15 +130,18 @@ public class SquadBuilderUtils {
         String dateOfBirthText = dateOfBirthInput.getEditText().getText().toString().trim();
         String heightText = heightInput.getEditText().getText().toString().trim();
 
+        // If no date of birth is entered, let the user know
         if(dateOfBirthText.isEmpty() && dateOfBirthInput == callingInput) {
             dateOfBirthInput.setError("Please enter a valid date");
         }
 
+        // Otherwise, indicate that date of birth input is valid
         else if(dateOfBirthInput == callingInput) {
             dateOfBirthValid = true;
             dateOfBirthInput.setErrorEnabled(false);
         }
 
+        // If no height is entered, let the user know
         if(heightText.isEmpty() && heightInput == callingInput) {
             if(firstName.substring(firstName.length() - 1).toLowerCase().equals("s")) {
                 heightInput.setError("Please enter " + firstName + "' height in inches");
@@ -135,15 +152,18 @@ public class SquadBuilderUtils {
             }
         }
 
+        // Otherwise, indicate that the height input is valid
         else if(heightInput == callingInput) {
             heightValid = true;
             heightInput.setErrorEnabled(false);
         }
 
+        // If both required inputs are valid, indicate that input is valid
         if(dateOfBirthValid && heightValid) {
             inputValid = true;
         }
 
+        // Otherwise, input is invalid
         else {
             inputValid = false;
         }
@@ -170,5 +190,17 @@ public class SquadBuilderUtils {
             // Change button color to gray
             continueButton.setBackgroundColor(context.getColor(R.color.secondary_text));
         }
+    }
+
+    // Custom method to reset input validation
+    public static void resetValidation() {
+        inputValid = false;
+        firstNameValid = false;
+        lastNameValid = false;
+        emailValid = false;
+        mobileNumberValid = false;
+
+        dateOfBirthValid = false;
+        heightValid = false;
     }
 }

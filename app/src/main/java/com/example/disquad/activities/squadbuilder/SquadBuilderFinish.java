@@ -1,5 +1,6 @@
 package com.example.disquad.activities.squadbuilder;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +16,7 @@ import com.example.disquad.R;
 import com.example.disquad.classes.squad.Squad;
 import com.example.disquad.classes.squad.SquadMember;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -43,6 +45,9 @@ public class SquadBuilderFinish extends AppCompatActivity {
     Button backButton;
     Button finishButton;
     Button addButton;
+
+    // Intents
+    Intent squadBuilder1Intent;
 
 
 
@@ -75,6 +80,7 @@ public class SquadBuilderFinish extends AppCompatActivity {
     private void retrieveData() {
         Bundle extras = getIntent().getExtras();
 
+        // Get all user input collected so far
         targetSquadCount = extras.getInt("targetSquadCount");
         currentSquadCount = extras.getInt("currentSquadCount");
 
@@ -100,19 +106,34 @@ public class SquadBuilderFinish extends AppCompatActivity {
             squad = new Squad(null, new ArrayList<SquadMember>());
         }
 
+        // Add the current squad member to the squad
         squad.addSquadMember(newSquadMember);
 
+        // If the current squad member is supposed to be the squad leader, set them as squad leader within the squad object
         for(SquadMember squadMember : squad.getSquadMembers()) {
             if(squadMember.isSquadLeader()) {
                 squad.setSquadLeader(squadMember);
             }
         }
 
+        // Increase current squad count by one
         currentSquadCount++;
+
+        // If target squad count has been reached, prevent user from adding any additional squad members
+        if(targetSquadCount == currentSquadCount) {
+            if(addButton == null) {
+                addButton = findViewById(R.id.button_add);
+            }
+            addButton.setEnabled(false);
+            addButton.setBackgroundColor(getColor(R.color.secondary_text));
+        }
     }
 
     // Custom method to initialize UI
     private void initializeUI() {
+        // Initialize intents
+        squadBuilder1Intent = new Intent(this, SquadBuilder1.class);
+
         // Initialize back button
         backButton = findViewById(R.id.button_back);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -131,11 +152,19 @@ public class SquadBuilderFinish extends AppCompatActivity {
             }
         });
 
-        addButton = findViewById(R.id.button_add);
+        // Initialize add button
+        if(addButton == null) {
+            addButton = findViewById(R.id.button_add);
+        }
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: RETURN TO SB1 AND PASS SQUAD FORWARD
+                // Return to SquadBuilder1 and pass squad forward
+                squadBuilder1Intent.putExtra("targetSquadCount", targetSquadCount);
+                squadBuilder1Intent.putExtra("currentSquadCount", currentSquadCount);
+                squadBuilder1Intent.putExtra("squad", (Serializable) squad);
+                startActivity(squadBuilder1Intent);
             }
         });
 
@@ -152,17 +181,25 @@ public class SquadBuilderFinish extends AppCompatActivity {
             message = message + ".";
         }
 
-        message = message + "You have " + currentSquadCount;
+        if(targetSquadCount == currentSquadCount) {
+            message = message + " It looks like your squad is complete! Just to recap, here's what we have:\n";
 
-        if(currentSquadCount == 1) {
-            message = message + " person";
+            for(SquadMember squadMember : squad.getSquadMembers()) {
+                message = message + "\n" + squadMember.getFirstName() + " " + squadMember.getLastName();
+            }
         }
 
         else {
-            message = message + " people";
+            message = message + "You have " + currentSquadCount;
+
+            if (currentSquadCount == 1) {
+                message = message + " person";
+            } else {
+                message = message + " people";
+            }
+            message = message + " in your squad. \n\n Do you want to add another squad member now? " +
+                    "You can always come back and do this later if you need to.";
         }
-        message = message + " in your squad. \n\n Do you want to add another squad member now? " +
-                "You can always come back and do this later if you need to.";
 
         instructions.setText(message);
     }

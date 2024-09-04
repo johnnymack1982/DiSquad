@@ -4,12 +4,13 @@ import android.location.Location;
 
 import com.example.disquad.classes.mission.attraction.Attraction;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class SquadMember {
+public class SquadMember implements Serializable {
     // CLASS PROPERTIES
     private String firstName;
     private String lastName;

@@ -1,8 +1,9 @@
 package com.example.disquad.classes.squad;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Squad {
+public class Squad implements Serializable {
     // CLASS PROPERTIES
     private SquadMember squadLeader;
     private ArrayList<SquadMember> squadMembers;
