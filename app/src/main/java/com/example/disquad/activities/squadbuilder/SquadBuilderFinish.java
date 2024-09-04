@@ -95,6 +95,8 @@ public class SquadBuilderFinish extends AppCompatActivity {
         isAnnualPassholder = extras.getBoolean("isAnnualPassholder");
         hasDAS = extras.getBoolean("hasDAS");
         isSquadLeader = extras.getBoolean("isSquadLeader");
+
+        squad = (Squad) extras.getSerializable("squad");
     }
 
     // Custom method to create new squad member

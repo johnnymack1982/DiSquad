@@ -348,5 +348,7 @@ public class SquadBuilder2 extends AppCompatActivity {
         squadBuilderFinishIntent.putExtra("isAnnualPassholder", isAnnualPassholder);
         squadBuilderFinishIntent.putExtra("hasDAS", hasDAS);
         squadBuilderFinishIntent.putExtra("isSquadLeader", isSquadLeader);
+
+        squadBuilderFinishIntent.putExtra("squad", squad);
     }
 }
